@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Roadmap — Front-end Criativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #222222;
+    --c1: #b8ff57;
+    --c2: #57c8ff;
+    --c3: #ff9f57;
+    --c4: #ff57a8;
+    --text: #f0ede8;
+    --muted: #666;
+    --faint: #1a1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 80px 60px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-bg-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(100px, 18vw, 220px);
+    color: transparent;
+    -webkit-text-stroke: 1px #1e1e1e;
+    position: absolute;
+    top: 10px;
+    left: 40px;
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    letter-spacing: -2px;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left {}
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 8vw, 96px);
+    line-height: .95;
+    letter-spacing: -1px;
+    color: var(--text);
+  }
+
+  h1 span {
+    color: var(--c1);
+  }
+
+  .header-right {
+    max-width: 280px;
+    flex-shrink: 0;
+  }
+
+  .header-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .badge-12m {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background: var(--c1);
+    color: #0a0a0a;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  /* ── PHASES ── */
+  .phases {
+    padding: 0 60px;
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .phase.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .phase:last-child { border-bottom: none; }
+
+  .phase-sidebar {
+    padding: 48px 40px 48px 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .phase-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--faint);
+    letter-spacing: -2px;
+  }
+
+  .phase-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .phase-accent-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    right: -4.5px;
+    top: 52px;
+  }
+
+  .phase-main {
+    padding: 48px 0 48px 48px;
+  }
+
+  .phase-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: .5px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .phase-goal {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    max-width: 500px;
+    font-style: italic;
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+  }
+
+  .skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+
+  .skill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 2px;
+    letter-spacing: .04em;
+    border: 1px solid;
+    transition: all .2s;
+    cursor: default;
+  }
+  .skill:hover {
+    transform: translateY(-2px);
+  }
+
+  .delivs-head {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .delivs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .deliv {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.5;
+    padding: 12px 16px;
+    background: var(--faint);
+    border-radius: 4px;
+    border-left: 2px solid;
+    transition: background .2s;
+  }
+  .deliv:hover { background: #1e1e1e; }
+
+  .deliv-idx {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: .05em;
+  }
+
+  /* ── COLORS PER PHASE ── */
+  .p1 .phase-period { color: var(--c1); }
+  .p1 .phase-accent-dot { background: var(--c1); box-shadow: 0 0 8px var(--c1); }
+  .p1 .phase-title { color: var(--c1); }
+  .p1 .skill { background: rgba(184,255,87,.07); color: var(--c1); border-color: rgba(184,255,87,.2); }
+  .p1 .skill:hover { background: rgba(184,255,87,.15); border-color: var(--c1); }
+  .p1 .deliv { border-color: var(--c1); }
+  .p1 .deliv-idx { color: var(--c1); }
+
+  .p2 .phase-period { color: var(--c2); }
+  .p2 .phase-accent-dot { background: var(--c2); box-shadow: 0 0 8px var(--c2); }
+  .p2 .phase-title { color: var(--c2); }
+  .p2 .skill { background: rgba(87,200,255,.07); color: var(--c2); border-color: rgba(87,200,255,.2); }
+  .p2 .skill:hover { background: rgba(87,200,255,.15); border-color: var(--c2); }
+  .p2 .deliv { border-color: var(--c2); }
+  .p2 .deliv-idx { color: var(--c2); }
+
+  .p3 .phase-period { color: var(--c3); }
+  .p3 .phase-accent-dot { background: var(--c3); box-shadow: 0 0 8px var(--c3); }
+  .p3 .phase-title { color: var(--c3); }
+  .p3 .skill { background: rgba(255,159,87,.07); color: var(--c3); border-color: rgba(255,159,87,.2); }
+  .p3 .skill:hover { background: rgba(255,159,87,.15); border-color: var(--c3); }
+  .p3 .deliv { border-color: var(--c3); }
+  .p3 .deliv-idx { color: var(--c3); }
+
+  .p4 .phase-period { color: var(--c4); }
+  .p4 .phase-accent-dot { background: var(--c4); box-shadow: 0 0 8px var(--c4); }
+  .p4 .phase-title { color: var(--c4); }
+  .p4 .skill { background: rgba(255,87,168,.07); color: var(--c4); border-color: rgba(255,87,168,.2); }
+  .p4 .skill:hover { background: rgba(255,87,168,.15); border-color: var(--c4); }
+  .p4 .deliv { border-color: var(--c4); }
+  .p4 .deliv-idx { color: var(--c4); }
+
+  /* ── CADENCIA ── */
+  .cadencia-wrap {
+    padding: 0 60px 80px;
+    margin-top: 60px;
+  }
+
+  .cadencia-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .cadencia-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  .cad-card {
+    background: var(--faint);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 16px;
+    transition: border-color .2s, transform .2s;
+  }
+  .cad-card:hover {
+    border-color: var(--muted);
+    transform: translateY(-3px);
+  }
+
+  .cad-icon {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--c1);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .cad-card:nth-child(2) .cad-icon { color: var(--c2); }
+  .cad-card:nth-child(3) .cad-icon { color: var(--c3); }
+  .cad-card:nth-child(4) .cad-icon { color: var(--c4); }
+  .cad-card:nth-child(5) .cad-icon { color: var(--c1); }
+
+  .cad-text {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* ── PROGRESS BAR TIMELINE ── */
+  .timeline-bar {
+    padding: 0 60px;
+    margin: 60px 0 0;
+    display: flex;
+    gap: 0;
+    height: 4px;
+  }
+
+  .tl-seg {
+    flex: 1;
+    height: 4px;
+    position: relative;
+  }
+  .tl-seg:nth-child(1) { background: linear-gradient(to right, transparent, var(--c1)); }
+  .tl-seg:nth-child(2) { background: linear-gradient(to right, var(--c1), var(--c2)); }
+  .tl-seg:nth-child(3) { background: linear-gradient(to right, var(--c2), var(--c3)); }
+  .tl-seg:nth-child(4) { background: linear-gradient(to right, var(--c3), var(--c4)); }
+
+  /* ── FOOTER STRIP ── */
+  .footer-strip {
+    border-top: 1px solid var(--border);
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .08em;
+  }
+
+  .dot-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .dot-row span {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-row span:nth-child(1) { background: var(--c1); }
+  .dot-row span:nth-child(2) { background: var(--c2); }
+  .dot-row span:nth-child(3) { background: var(--c3); }
+  .dot-row span:nth-child(4) { background: var(--c4); }
+
+  /* ── SCROLL ANIMATION ── */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* entrance for header */
+  .header-content { animation: slideIn .8s ease both; }
+  .timeline-bar { animation: slideIn .8s .2s ease both; }
+
+  @media (max-width: 768px) {
+    header, .phases, .cadencia-wrap, .footer-strip, .timeline-bar { padding-left: 24px; padding-right: 24px; }
+    .phase { grid-template-columns: 1fr; }
+    .phase-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding: 32px 0; flex-direction: row; align-items: center; gap: 16px; }
+    .phase-accent-dot { display: none; }
+    .phase-num { font-size: 48px; }
+    .phase-main { padding: 32px 0; }
+    .cadencia-grid { grid-template-columns: repeat(2, 1fr); }
+    .header-content { flex-direction: column; align-items: flex-start; }
+    .header-right { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-bg-text">DEV</div>
+  <div class="header-content">
+    <div class="header-left">
+      <div class="eyebrow">Plano de estudos · 2025</div>
+      <h1>FRONT-END<br><span>CRIATIVO</span></h1>
+    </div>
+    <div class="header-right">
+      <div class="badge-12m">⬡ 12 meses</div>
+      <p class="header-desc">Do básico sólido ao diferencial que te separa da maioria dos devs. Um roadmap honesto, sem atalhos.</p>
+    </div>
+  </div>
+</header>
+
+<div class="timeline-bar">
+  <div class="tl-seg"></div>
+  <div class="tl-seg"></div>
+  <div class="tl-seg"></div>
+  <div class="tl-seg"></div>
+</div>
+
+<div class="phases">
+
+  <div class="phase p1">
+    <div class="phase-sidebar">
+      <div class="phase-accent-dot"></div>
+      <div class="phase-num">01</div>
+      <div class="phase-period">Meses 1–3</div>
+    </div>
+    <div class="phase-main">
+      <div class="phase-title">BASE SÓLIDA</div>
+      <div class="phase-goal">Ficar muito bom no básico e construir velocidade de execução</div>
+      <div class="skills-row">
+        <span class="skill">HTML semântico</span>
+        <span class="skill">CSS avançado</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">Git / GitHub</span>
+        <span class="skill">Referências visuais</span>
+      </div>
+      <div class="delivs-head">// portfólio</div>
+      <div class="delivs">
+        <div class="deliv"><span class="deliv-idx">01</span><span>Landing page responsiva com alto nível visual</span></div>
+        <div class="deliv"><span class="deliv-idx">02</span><span>Clone de interface real, recriado com capricho</span></div>
+        <div class="deliv"><span class="deliv-idx">03</span><span>Projeto com animações leves e boa hierarquia visual</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p2">
+    <div class="phase-sidebar">
+      <div class="phase-accent-dot"></div>
+      <div class="phase-num">02</div>
+      <div class="phase-period">Meses 4–6</div>
+    </div>
+    <div class="phase-main">
+      <div class="phase-title">STACK PROFISSIONAL</div>
+      <div class="phase-goal">Entrar no padrão que o mercado internacional espera de um dev</div>
+      <div class="skills-row">
+        <span class="skill">React</span>
+        <span class="skill">TypeScript</span>
+        <span class="skill">Next.js</span>
+        <span class="skill">Tailwind</span>
+        <span class="skill">APIs & estado</span>
+        <span class="skill">Performance & SEO</span>
+      </div>
+      <div class="delivs-head">// portfólio</div>
+      <div class="delivs">
+        <div class="deliv"><span class="deliv-idx">01</span><span>App com autenticação simulada ou integração com API</span></div>
+        <div class="deliv"><span class="deliv-idx">02</span><span>Dashboard com dados reais</span></div>
+        <div class="deliv"><span class="deliv-idx">03</span><span>Projeto com componentes reutilizáveis</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p3">
+    <div class="phase-sidebar">
+      <div class="phase-accent-dot"></div>
+      <div class="phase-num">03</div>
+      <div class="phase-period">Meses 7–9</div>
+    </div>
+    <div class="phase-main">
+      <div class="phase-title">DESIGN SYSTEM</div>
+      <div class="phase-goal">Mostrar que você pensa como alguém que escala produto, não só tela</div>
+      <div class="skills-row">
+        <span class="skill">Tokens de design</span>
+        <span class="skill">Biblioteca de componentes</span>
+        <span class="skill">Storybook</span>
+        <span class="skill">Estados de componente</span>
+        <span class="skill">Documentação visual</span>
+      </div>
+      <div class="delivs-head">// portfólio</div>
+      <div class="delivs">
+        <div class="deliv"><span class="deliv-idx">01</span><span>Design system próprio com 10+ componentes</span></div>
+        <div class="deliv"><span class="deliv-idx">02</span><span>Produto completo usando esse design system</span></div>
+        <div class="deliv"><span class="deliv-idx">03</span><span>Case explicando UI, consistência e acessibilidade</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p4">
+    <div class="phase-sidebar">
+      <div class="phase-accent-dot"></div>
+      <div class="phase-num">04</div>
+      <div class="phase-period">Meses 10–12</div>
+    </div>
+    <div class="phase-main">
+      <div class="phase-title">DIFERENCIAL CRIATIVO</div>
+      <div class="phase-goal">Criar algo que te separe do front-end genérico e seja impossível de ignorar</div>
+      <div class="skills-row">
+        <span class="skill">Framer Motion / GSAP</span>
+        <span class="skill">Three.js / R3F</span>
+        <span class="skill">Microinterações</span>
+        <span class="skill">Experimentos visuais</span>
+      </div>
+      <div class="delivs-head">// portfólio</div>
+      <div class="delivs">
+        <div class="deliv"><span class="deliv-idx">01</span><span>Site com experiência visual marcante</span></div>
+        <div class="deliv"><span class="deliv-idx">02</span><span>Projeto com 3D leve ou interação imersiva</span></div>
+        <div class="deliv"><span class="deliv-idx">03</span><span>Case de portfólio mostrando processo e resultado</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="cadencia-wrap">
+  <div class="cadencia-label">// cadência mensal</div>
+  <div class="cadencia-grid">
+    <div class="cad-card">
+      <div class="cad-icon">01×</div>
+      <div class="cad-text">Projeto ou feature por mês</div>
+    </div>
+    <div class="cad-card">
+      <div class="cad-icon">01×</div>
+      <div class="cad-text">Estudo de referência por semana</div>
+    </div>
+    <div class="cad-card">
+      <div class="cad-icon">01×</div>
+      <div class="cad-text">Melhoria de portfólio por semana</div>
+    </div>
+    <div class="cad-card">
+      <div class="cad-icon">01×</div>
+      <div class="cad-text">Publicação no GitHub ou LinkedIn por semana</div>
+    </div>
+    <div class="cad-card">
+      <div class="cad-icon">01×</div>
+      <div class="cad-text">Prática de inglês técnico por dia</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-strip">
+  <div class="footer-mono">FRONTEND ROADMAP — 12M</div>
+  <div class="dot-row">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="footer-mono">v1.0 · 2025</div>
+</div>
+
+<script>
+const phases = document.querySelectorAll('.phase');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+phases.forEach(p => observer.observe(p));
+</script>
+</body>
+</html>
