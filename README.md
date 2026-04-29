@@ -25,8 +25,8 @@
 
 **Skills:** HTML semântico · CSS avançado · JavaScript · Git / GitHub · Referências visuais
 
-**Projeto:**
-[]projeto
+**Projeto Final:**
+-[] Projeto Concluído
 
 ---
 
@@ -36,7 +36,7 @@
 
 **Skills:** React · TypeScript · Next.js · Tailwind · APIs & estado · Performance & SEO
 
-**Projeto:** _link aqui_
+**Projeto Final:** _link aqui_
 
 ---
 
@@ -46,7 +46,7 @@
 
 **Skills:** Tokens de design · Biblioteca de componentes · Storybook · Estados de componente · Documentação visual
 
-**Projeto:** _link aqui_
+**Projeto: Final** _link aqui_
 
 ---
 
@@ -56,7 +56,7 @@
 
 **Skills:** Framer Motion / GSAP · Three.js / R3F · Microinterações · Experimentos visuais
 
-**Projeto:** _link aqui_
+**Projeto: Final** _link aqui_
 
 ---
 
