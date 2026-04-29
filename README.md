@@ -26,7 +26,7 @@
 **Skills:** HTML semântico · CSS avançado · JavaScript · Git / GitHub · Referências visuais
 
 **Projeto Final:**
-- [ ] Projeto Concluído
+- [x] Projeto Concluído
 
 ---
 
