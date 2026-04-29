@@ -6,10 +6,6 @@
 
 ## 🗺️ Progresso Geral
 
-```
-[██░░░░░░░░░░░░░░░░░░░░░░] 25% — Fase 1 concluída
-```
-
 | Fase | Período     | Status          |
 |------|-------------|-----------------|
 | 01   | Meses 1–3   | ✅ Concluída     |
